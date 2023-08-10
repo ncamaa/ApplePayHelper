@@ -1,6 +1,6 @@
 {
   "name": "apple-pay-helper",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A utility library for handling server side Apple Pay sessions and decrypting tokens.",
   "main": "ApplePayHelper.js",
   "scripts": {
@@ -23,13 +23,13 @@
   },
   "homepage": "https://github.com/ncamaa/ApplePayHelper#readme",
   "dependencies": {
-    "@peculiar/webcrypto": "latest",
-    "@peculiar/x509": "latest",
-    "asn1js": "latest",
+    "@peculiar/webcrypto": "^1.4.3",
+    "@peculiar/x509": "^1.9.3",
+    "asn1js": "^3.0.5",
     "crypto": "latest",
-    "ec-key": "latest",
-    "node-forge": "latest",
-    "pkijs": "latest",
-    "request": "latest"
+    "ec-key": "^0.0.4",
+    "node-forge": "^1.3.1",
+    "pkijs": "^3.0.15",
+    "request": "^2.88.2"
   }
 }
