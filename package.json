@@ -1,8 +1,8 @@
 {
-  "name": "applepayhelper",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "apple-pay-helper",
+  "version": "0.0.1",
+  "description": "A utility library for handling server side Apple Pay sessions and decrypting tokens.",
+  "main": "ApplePayHelper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,16 +11,25 @@
     "url": "git+https://github.com/ncamaa/ApplePayHelper.git"
   },
   "keywords": [
-    "apple",
-    "applepay",
-    "apple",
-    "pay",
-    "pay"
+    "apple-pay",
+    "payment",
+    "decryption",
+    "session"
   ],
-  "author": "ncamaa@gmail.com",
+  "author": "Nadav Cohen",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ncamaa/ApplePayHelper/issues"
   },
-  "homepage": "https://github.com/ncamaa/ApplePayHelper#readme"
+  "homepage": "https://github.com/ncamaa/ApplePayHelper#readme",
+  "dependencies": {
+    "@peculiar/webcrypto": "latest",
+    "@peculiar/x509": "latest",
+    "asn1js": "latest",
+    "crypto": "latest",
+    "ec-key": "latest",
+    "node-forge": "latest",
+    "pkijs": "latest",
+    "request": "latest"
+  }
 }
