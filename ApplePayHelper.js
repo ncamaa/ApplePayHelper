@@ -1,6 +1,6 @@
-const ApplePaySession = require('./ApplePaySession');
-const Decryptor = require('./Decryptor');
-const Mapper = require('./Mapper');
+const ApplePaySession = require("./ApplePaySession");
+const Decryptor = require("./Decryptor");
+const Mapper = require("./Mapper");
 
 /**
  * ApplePayHelper Class
@@ -27,7 +27,7 @@ class ApplePayHelper {
     try {
       return await this.session.start(data);
     } catch (error) {
-      console.error('Error initiating Apple Pay session:', error);
+      console.error("Error initiating Apple Pay session:", error);
       throw error;
     }
   }
@@ -41,7 +41,7 @@ class ApplePayHelper {
     try {
       return await this.decryptor.decrypt(token);
     } catch (error) {
-      console.error('Error decrypting Apple Pay token:', error);
+      console.error("Error decrypting Apple Pay token:", error);
       throw error;
     }
   }
@@ -49,13 +49,16 @@ class ApplePayHelper {
   /**
    * Maps the decrypted token to the desired format.
    * @param {Object} decryptedToken - The decrypted Apple Pay token.
+   * @param {string} provider - The provider's name (e.g., "PayCom").
    * @returns {Object} - The mapped token.
    */
-  mapToken(decryptedToken) {
+  mapToken(decryptedToken, provider) {
     try {
-      return this.mapper.map(decryptedToken);
+      const mapped = this.mapper.map(decryptedToken, provider);
+
+      return mapped;
     } catch (error) {
-      console.error('Error mapping decrypted token:', error);
+      console.error("Error mapping decrypted token:", error);
       throw error;
     }
   }

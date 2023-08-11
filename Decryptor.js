@@ -1,5 +1,4 @@
-const PaymentToken = require('./PaymentToken');
-const Mapper = require('./Mapper');
+const PaymentToken = require("./PaymentToken");
 
 /**
  * Decryptor Class
@@ -22,18 +21,18 @@ class Decryptor {
   async decrypt(token) {
     try {
       const paymentToken = new PaymentToken(token);
+
+      const { merchantCertOnlyPem, paymentProcessorPrivateKeyPem } =
+        this.config;
+
       const decrypted = paymentToken.decrypt(
-        this.config.appleMerchantCertPem,
-        this.config.applePaymentProcessorPrivateKeyPem
+        merchantCertOnlyPem,
+        paymentProcessorPrivateKeyPem
       );
 
-      // If you want to map the decrypted token immediately after decryption
-      const mapper = new Mapper(this.config);
-      const mapped = mapper.map(decrypted);
-
-      return mapped;
+      return decrypted;
     } catch (error) {
-      console.error('Error decrypting Apple Pay token:', error);
+      console.error("Error decrypting Apple Pay token:", error);
       throw error;
     }
   }

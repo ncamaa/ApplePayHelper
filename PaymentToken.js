@@ -2,6 +2,12 @@ const crypto = require("crypto");
 const forge = require("node-forge");
 const ECKey = require("ec-key");
 const { X509Certificate } = require("@peculiar/x509");
+const ApplePayHelper = require("./ApplePayHelper");
+const TOKEN_EXPIRE_WINDOW = 300000; // should be set to 5 minutes (300000 ms) per apple
+const LEAF_CERTIFICATE_OID = "1.2.840.113635.100.6.29";
+const INTERMEDIATE_CA_OID = "1.2.840.113635.100.6.2.14";
+const SIGNINGTIME_OID = "1.2.840.113549.1.9.5";
+const MERCHANT_ID_FIELD_OID = "1.2.840.113635.100.6.32";
 
 /**
  * Class to handle the decryption of Apple Pay tokens.
@@ -22,12 +28,11 @@ class PaymentToken {
    * @returns {Object} Decrypted token data.
    */
   decrypt(certPem, privatePem) {
-    console.log("Starting decryption process...");
     const sharedSecret = this.sharedSecret(privatePem);
     const merchantId = this.merchantIdPeculiar(certPem);
     const symmetricKey = this.symmetricKey(merchantId, sharedSecret);
     const decrypted = this.decryptCiphertext(symmetricKey, this.cipherText);
-    console.log("Decryption successful.");
+
     return JSON.parse(decrypted);
   }
 
@@ -44,28 +49,22 @@ class PaymentToken {
 
   merchantIdPeculiar(cert) {
     try {
-      console.log("parsing cert....");
       // Parse the certificate using the @peculiar/x509 library
       const certificate = new X509Certificate(cert);
 
       const { issuerName, issuer } = certificate;
 
-      // console.log({ issuerName, issuer })
-
       const certExtensions = certificate.getExtensions(MERCHANT_ID_FIELD_OID);
-      console.log("akjsdfgklasjdfh");
+
       const { values } = certExtensions;
-      console.log({ certExtensions, values });
 
       const { value } = certExtensions[0];
 
-      console.log({ value });
-
       const uint8View = new Uint8Array(value);
+
       const merchantId22 = String.fromCharCode.apply(null, uint8View);
 
       const merchantId = merchantId22.split("@")[1];
-      console.log({ merchantId }); // If merchantId is encoded as a
 
       return merchantId;
     } catch (e) {

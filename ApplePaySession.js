@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require("request");
 
 /**
  * ApplePaySession Class
@@ -22,14 +22,15 @@ class ApplePaySession {
     let { appleValidationURL } = data;
 
     if (!appleValidationURL) {
-      appleValidationURL = 'https://apple-pay-gateway.apple.com/paymentservices/startSession';
+      appleValidationURL =
+        "https://apple-pay-gateway.apple.com/paymentservices/startSession";
     }
 
     try {
       const response = await this.validateMerchant(appleValidationURL);
       return response;
     } catch (error) {
-      console.error('Error occurred in validateMerchant function:', error);
+      console.error("Error occurred in validateMerchant function:", error);
       throw error;
     }
   }
@@ -43,17 +44,17 @@ class ApplePaySession {
     const options = {
       url: appleValidationURL,
       agentOptions: {
-        cert: this.config.merchantCertAndKeyPem,
-        key: this.config.merchantCertAndKeyPem
+        cert: this.config.merchantCertOnlyPem,
+        key: this.config.merchantKeyOnlyPem,
       },
-      method: 'post',
+      method: "post",
       body: {
         merchantIdentifier: this.config.merchantId,
         displayName: this.config.displayName,
-        initiative: 'web',
-        initiativeContext: this.config.initiativeContext
+        initiative: this.config.initiative,
+        initiativeContext: this.config.initiativeContext,
       },
-      json: true
+      json: true,
     };
 
     return new Promise((resolve, reject) => {

@@ -131,3 +131,6 @@ dist
 
 # apple certs and private keys
 apple-pay-certs/
+
+# config file
+config.js
