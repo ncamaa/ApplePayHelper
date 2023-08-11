@@ -1,7 +1,7 @@
-const crypto = require('crypto');
-const forge = require('node-forge');
-const ECKey = require('ec-key');
-const { X509Certificate } = require('@peculiar/x509');
+const crypto = require("crypto");
+const forge = require("node-forge");
+const ECKey = require("ec-key");
+const { X509Certificate } = require("@peculiar/x509");
 
 /**
  * Class to handle the decryption of Apple Pay tokens.
@@ -22,12 +22,12 @@ class PaymentToken {
    * @returns {Object} Decrypted token data.
    */
   decrypt(certPem, privatePem) {
-    console.log('Starting decryption process...');
+    console.log("Starting decryption process...");
     const sharedSecret = this.sharedSecret(privatePem);
     const merchantId = this.merchantIdPeculiar(certPem);
     const symmetricKey = this.symmetricKey(merchantId, sharedSecret);
     const decrypted = this.decryptCiphertext(symmetricKey, this.cipherText);
-    console.log('Decryption successful.');
+    console.log("Decryption successful.");
     return JSON.parse(decrypted);
   }
 
@@ -37,38 +37,90 @@ class PaymentToken {
    * @returns {string} Shared secret.
    */
   sharedSecret(privatePem) {
-    const prv = new ECKey(privatePem, 'pem');
-    const publicEc = new ECKey(this.ephemeralPublicKey, 'spki');
-    return prv.computeSecret(publicEc).toString('hex');
+    const prv = new ECKey(privatePem, "pem");
+    const publicEc = new ECKey(this.ephemeralPublicKey, "spki");
+    return prv.computeSecret(publicEc).toString("hex");
   }
 
-  /**
-   * Extract merchant ID from certificate.
-   * @param {string} cert - Merchant certificate.
-   * @returns {string} Merchant ID.
-   */
   merchantIdPeculiar(cert) {
-    // Implementation to extract merchant ID from certificate
+    try {
+      console.log("parsing cert....");
+      // Parse the certificate using the @peculiar/x509 library
+      const certificate = new X509Certificate(cert);
+
+      const { issuerName, issuer } = certificate;
+
+      // console.log({ issuerName, issuer })
+
+      const certExtensions = certificate.getExtensions(MERCHANT_ID_FIELD_OID);
+      console.log("akjsdfgklasjdfh");
+      const { values } = certExtensions;
+      console.log({ certExtensions, values });
+
+      const { value } = certExtensions[0];
+
+      console.log({ value });
+
+      const uint8View = new Uint8Array(value);
+      const merchantId22 = String.fromCharCode.apply(null, uint8View);
+
+      const merchantId = merchantId22.split("@")[1];
+      console.log({ merchantId }); // If merchantId is encoded as a
+
+      return merchantId;
+    } catch (e) {
+      console.error("Unable to extract merchant ID from certificate", e);
+    }
   }
 
   /**
-   * Derive the symmetric key.
-   * @param {string} merchantId - Merchant ID.
-   * @param {string} sharedSecret - Shared secret.
-   * @returns {string} Symmetric key.
+   * Derive the symmetric key using the key derivation function described in NIST SP 800-56A, section 5.8.1
+   * https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-56ar.pdf
+   * The symmetric key is a sha256 hash that contains shared secret token plus encoding information
    */
   symmetricKey(merchantId, sharedSecret) {
-    // Implementation to derive the symmetric key
+    const KDF_ALGORITHM = "\x0did-aes256-GCM"; // The byte (0x0D) followed by the ASCII string "id-aes256-GCM". The first byte of this value is an unsigned integer that indicates the string’s length in bytes; the remaining bytes are a constiable-length string.
+    const KDF_PARTY_V = Buffer.from(merchantId, "hex").toString("binary"); // The SHA-256 hash of your merchant ID string literal; 32 bytes in size.
+    const KDF_PARTY_U = "Apple"; // The ASCII string "Apple". This value is a fixed-length string.
+    const KDF_INFO = KDF_ALGORITHM + KDF_PARTY_U + KDF_PARTY_V;
+
+    let hash = crypto.createHash("sha256");
+    hash.update(Buffer.from("000000", "hex"));
+    hash.update(Buffer.from("01", "hex"));
+    hash.update(Buffer.from(sharedSecret, "hex"));
+    hash.update(KDF_INFO, "binary");
+
+    return hash.digest("hex");
   }
 
   /**
-   * Decrypt the cipher text using the symmetric key.
-   * @param {string} symmetricKey - Symmetric key.
-   * @param {string} cipherText - Cipher text to decrypt.
-   * @returns {string} Decrypted text.
+   * Decrypting the cipher text from the token (data in the original payment token) key using AES–256 (id-aes256-GCM 2.16.840.1.101.3.4.1.46), with an initialization vector of 16 null bytes and no associated authentication data.
+   *
    */
   decryptCiphertext(symmetricKey, cipherText) {
-    // Implementation to decrypt the cipher text
+    const data = forge.util.decode64(cipherText);
+    const SYMMETRIC_KEY = forge.util.createBuffer(
+      Buffer.from(symmetricKey, "hex").toString("binary")
+    );
+    const IV = forge.util.createBuffer(
+      Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]).toString(
+        "binary"
+      )
+    ); // Initialization vector of 16 null bytes
+    const CIPHERTEXT = forge.util.createBuffer(data.slice(0, -16));
+
+    const decipher = forge.cipher.createDecipher("AES-GCM", SYMMETRIC_KEY); // Creates and returns a Decipher object that uses the given algorithm and password (key)
+    const tag = data.slice(-16, data.length);
+
+    decipher.start({
+      iv: IV,
+      tagLength: 128,
+      tag,
+    });
+
+    decipher.update(CIPHERTEXT);
+    decipher.finish();
+    return Buffer.from(decipher.output.toHex(), "hex").toString("utf-8");
   }
 }
 

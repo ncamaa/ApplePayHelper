@@ -19,5 +19,9 @@
     "titleBar.inactiveForeground": "#15202b99"
   },
   "peacock.color": "white",
-  "cSpell.words": ["Decryptor"]
+  "cSpell.words": ["Decryptor"],
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
