@@ -5,7 +5,7 @@
 class Mapper {
   /**
    * Constructs an instance of Mapper.
-   * @param {Object} config - Configuration object containing necessary parameters.
+   * @param { import('./applePayHelperTypes').ApplePayConfig } config - Configuration object containing necessary parameters.
    */
   constructor(config) {
     this.config = config;
@@ -13,9 +13,9 @@ class Mapper {
 
   /**
    * Maps the decrypted token using the specified provider's format.
-   * @param {Object} decryptedToken - The decrypted Apple Pay token.
+   * @param {import('./applePayHelperTypes').DecryptedTokenRaw} decryptedToken - The decrypted Apple Pay token.
    * @param {string} provider - The provider's name (e.g., "PayCom").
-   * @returns {Object} - The mapped token.
+   * @returns {import('./applePayHelperTypes').DecryptedTokenRaw | import('./applePayHelperTypes').PayCOMDecryptedToken} - The mapped token.
    */
   map(decryptedToken, provider) {
     switch (provider) {
@@ -32,8 +32,8 @@ class Mapper {
 
   /**
    * Maps the decrypted token to the PayCom (pay.com) format.
-   * @param {Object} decryptedToken - The decrypted Apple Pay token.
-   * @returns {Object} - The mapped token.
+   * @param {import('./applePayHelperTypes').DecryptedTokenRaw} decryptedToken - The decrypted Apple Pay token.
+   * @returns {import('./applePayHelperTypes').PayCOMDecryptedToken} - The mapped token.
    */
   mapToPayCom(decryptedToken) {
     const applicationExpirationDate = decryptedToken.applicationExpirationDate;

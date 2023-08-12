@@ -7,16 +7,18 @@ const request = require("request");
 class ApplePaySession {
   /**
    * Constructs an instance of ApplePaySession.
-   * @param {Object} config - Configuration object containing necessary parameters.
+   * @param {import('./applePayHelperTypes').ApplePayConfig} config - Configuration object containing necessary parameters.
    */
   constructor(config) {
     this.config = config;
   }
 
   /**
+   * @typedef {import('./applePayHelperTypes').StartSessionResponseFromApple} StartSessionResponseFromApple
+   *
    * Starts the Apple Pay session.
-   * @param {Object} data - Data required to start the Apple Pay session.
-   * @returns {Promise<Object>} - The result of the session initiation.
+   * @param {{appleValidationURL?: String}} data - An object containing the Apple Pay validation URL.
+   * @returns {Promise<StartSessionResponseFromApple>} - The result of the session initiation.
    */
   async start(data) {
     let { appleValidationURL } = data;
@@ -38,7 +40,7 @@ class ApplePaySession {
   /**
    * Validates the merchant using Apple Pay.
    * @param {string} appleValidationURL - The Apple Pay validation URL.
-   * @returns {Promise<Object>} - The result of the merchant validation.
+   * @returns {Promise<import('./applePayHelperTypes').ApplePaymentResponse>} - The result of the merchant validation.
    */
   async validateMerchant(appleValidationURL) {
     const options = {

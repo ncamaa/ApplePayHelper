@@ -9,7 +9,7 @@ const Mapper = require("./Mapper");
 class ApplePayHelper {
   /**
    * Constructs an instance of ApplePayHelper.
-   * @param {Object} config - Configuration object containing necessary parameters.
+   * @param {import('./applePayHelperTypes').ApplePayConfig} config - Configuration object containing necessary parameters.
    */
   constructor(config) {
     this.config = config;
@@ -19,13 +19,16 @@ class ApplePayHelper {
   }
 
   /**
+   * @typedef {import('./applePayHelperTypes').StartSessionResponseFromApple} StartSessionResponseFromApple
+   *
    * Initiates the Apple Pay session.
-   * @param {Object} data - Data required to start the Apple Pay session.
-   * @returns {Promise<Object>} - The result of the session initiation.
+   * @param {{appleValidationURL?: String}} data - An object containing the Apple Pay validation URL.
+   * @returns {Promise<StartSessionResponseFromApple>} - The result of the session initiation.
    */
   async initiateSession(data) {
     try {
-      return await this.session.start(data);
+      const res = await this.session.start(data);
+      return res;
     } catch (error) {
       console.error("Error initiating Apple Pay session:", error);
       throw error;
@@ -34,8 +37,8 @@ class ApplePayHelper {
 
   /**
    * Decrypts the Apple Pay token.
-   * @param {Object} token - The Apple Pay token to be decrypted.
-   * @returns {Promise<Object>} - The decrypted token.
+   * @param {import('./applePayHelperTypes').ApplePaymentResponse_PaymentData} token - The Apple Pay token to be decrypted.
+   * @returns {Promise<import('./applePayHelperTypes').DecryptedTokenRaw>} - The decrypted token.
    */
   async decryptToken(token) {
     try {
@@ -48,9 +51,9 @@ class ApplePayHelper {
 
   /**
    * Maps the decrypted token to the desired format.
-   * @param {Object} decryptedToken - The decrypted Apple Pay token.
+   * @param {Promise<import('./applePayHelperTypes').DecryptedTokenRaw>} decryptedToken - The decrypted Apple Pay token.
    * @param {string} provider - The provider's name (e.g., "PayCom").
-   * @returns {Object} - The mapped token.
+   * @returns { Promise<import('./applePayHelperTypes').PayCOMDecryptedToken } - The mapped token.
    */
   mapToken(decryptedToken, provider) {
     try {

@@ -14,7 +14,7 @@ const MERCHANT_ID_FIELD_OID = "1.2.840.113635.100.6.32";
  */
 class PaymentToken {
   /**
-   * @param {Object} tokenAttrs - Attributes of the token.
+   * @param {import('./applePayHelperTypes').ApplePaymentResponse_PaymentData} tokenAttrs - The Apple Pay token to be decrypted.
    */
   constructor(tokenAttrs) {
     this.ephemeralPublicKey = tokenAttrs.header.ephemeralPublicKey;
@@ -25,7 +25,7 @@ class PaymentToken {
    * Main method to decrypt the token.
    * @param {string} certPem - Merchant certificate in PEM format.
    * @param {string} privatePem - Merchant private key in PEM format.
-   * @returns {Object} Decrypted token data.
+   * @returns { import('./applePayHelperTypes').DecryptedTokenRaw } Decrypted token data.
    */
   decrypt(certPem, privatePem) {
     const sharedSecret = this.sharedSecret(privatePem);
