@@ -1,3 +1,9 @@
+[![GitHub stars](https://img.shields.io/github/stars/ncamaa/ApplePayHelper.svg?style=social)](https://github.com/ncamaa/ApplePayHelper)
+[![GitHub forks](https://img.shields.io/github/forks/ncamaa/ApplePayHelper.svg?style=social)](https://github.com/ncamaa/ApplePayHelper/fork)
+[![npm downloads](https://img.shields.io/npm/dt/apple-pay-helper.svg)](https://www.npmjs.com/package/apple-pay-helper)
+[![npm version](https://badge.fury.io/js/apple-pay-helper.svg)](https://www.npmjs.com/package/apple-pay-helper)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # 🍏 ApplePayHelper
 
 ApplePayHelper is a comprehensive JavaScript library designed to simplify the integration of Apple Pay within your Node.js applications. It provides a seamless way to initiate Apple Pay sessions, decrypt payment tokens, and map the decrypted tokens to different payment providers. Most of the decryption logic is taken from [samcorcos/apple-pay-decrypt]('https://github.com/samcorcos/apple-pay-decrypt') and was modified to work with modern Node.js. I highly recommend checking his guide on how to generate the required PEM files for Apple Pay.
@@ -24,10 +30,11 @@ npm install apple-pay-helper
 2. Merchant private key (merchantKeyOnlyPem)
 3. Payment processor private key (paymentProcessorPrivateKeyPem)
 
-#### You can ready more here how to generate these files:
+#### You can more here how to generate these files:
 
 - [File Numbers 1,2](GenerateMerchantCertAndKeyPem.md)
 - [File Number 3](GeneratePaymentProcessorKeyPem.md)
+- The old decrypting library that does not support modern Node.js has a good guide on how to generate the required files. You can find it [here](https://github.com/samcorcos/apple-pay-decrypt)
 
 ## 🚀 Quick Start
 
