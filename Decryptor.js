@@ -22,12 +22,18 @@ class Decryptor {
     try {
       const paymentToken = new PaymentToken(token);
 
-      const { merchantCertOnlyPem, paymentProcessorPrivateKeyPem } =
-        this.config;
+      const {
+        merchantCertOnlyPem,
+        paymentProcessorPrivateKeyPem,
+        isValidateExpirationDate,
+        tokenExpirationWindow,
+      } = this.config;
 
       const decrypted = paymentToken.decrypt(
         merchantCertOnlyPem,
-        paymentProcessorPrivateKeyPem
+        paymentProcessorPrivateKeyPem,
+        isValidateExpirationDate,
+        tokenExpirationWindow
       );
 
       return decrypted;

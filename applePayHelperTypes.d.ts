@@ -36,6 +36,18 @@ export interface ApplePayConfig {
    * The merchant private key only PEM file content.
    */
   merchantKeyOnlyPem: string;
+
+  /**
+   * Validate the expiration date of the token and also verifies the certificate chain
+   * Defaults to true.
+   */
+  isValidateExpirationDate?: boolean;
+
+  /**
+   * Token expiration window in milliseconds.
+   * Defaults to 5 minutes.
+   */
+  tokenExpirationWindow?: number;
 }
 
 export interface StartSessionResponseFromApple {

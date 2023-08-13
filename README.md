@@ -63,6 +63,8 @@ const applePayConfig = {
   initiativeContext: "yourdomain.com",
   version: "0008",
   initiative: "web", // web, ios, etc.
+  isValidateExpirationDate: true, // neither to validate the expiration date of the payment token or not
+  tokenExpirationWindow: 300000, // defaults to 5 minutes
   paymentProcessorPrivateKeyPem: paymentProcessorPrivateKeyPem,
   merchantCertOnlyPem: merchantCertOnlyPem,
   merchantKeyOnlyPem: merchantKeyOnlyPem,

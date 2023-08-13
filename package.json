@@ -1,10 +1,10 @@
 {
   "name": "apple-pay-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A utility library for handling server side Apple Pay sessions and decrypting tokens.",
   "main": "ApplePayHelper.js",
   "scripts": {
-    "test": "nodemon test-server.js"
+    "test": "nodemon testing-server.js"
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
   }
 }
