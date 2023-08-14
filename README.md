@@ -1,5 +1,3 @@
-[![GitHub stars](https://img.shields.io/github/stars/ncamaa/ApplePayHelper.svg?style=social)](https://github.com/ncamaa/ApplePayHelper)
-[![GitHub forks](https://img.shields.io/github/forks/ncamaa/ApplePayHelper.svg?style=social)](https://github.com/ncamaa/ApplePayHelper/fork)
 [![npm downloads](https://img.shields.io/npm/dt/apple-pay-helper.svg)](https://www.npmjs.com/package/apple-pay-helper)
 [![npm version](https://badge.fury.io/js/apple-pay-helper.svg)](https://www.npmjs.com/package/apple-pay-helper)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -30,7 +28,7 @@ npm install apple-pay-helper
 2. Merchant private key (merchantKeyOnlyPem)
 3. Payment processor private key (paymentProcessorPrivateKeyPem)
 
-#### You can more here how to generate these files:
+#### You can read more here on how to generate these files:
 
 - [File Numbers 1,2](GenerateMerchantCertAndKeyPem.md)
 - [File Number 3](GeneratePaymentProcessorKeyPem.md)
@@ -51,10 +49,14 @@ const ApplePayHelper = require("apple-pay-helper");
  * 3. Payment processor private key (paymentProcessorPrivateKeyPem)
  * Note: Make sure to generate these files using the instructions
  */
-const merchantCertOnlyPem = fs.readFileSync("path/to/your-file.pem").toString();
-const merchantKeyOnlyPem = fs.readFileSync("path/to/your-file.pem").toString();
+const merchantCertOnlyPem = fs
+  .readFileSync("path/to/your-merchant-cert-file.pem")
+  .toString();
+const merchantKeyOnlyPem = fs
+  .readFileSync("path/to/your-merchant-key-file.pem")
+  .toString();
 const paymentProcessorPrivateKeyPem = fs
-  .readFileSync("path/to/your-file.pem")
+  .readFileSync("path/to/your-payment-processor-key-file.pem")
   .toString();
 
 const applePayConfig = {
@@ -86,6 +88,13 @@ const decryptedToken = await applePayHelper.decryptToken(paymentData);
 ```
 
 For a more detailed example, check out the [test file](testing-server.js)
+
+## 📖 Resources
+
+- [Apple's official demo](https://applepaydemo.apple.com/)
+- [Create a certificate signing request](https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request)
+- [Becoming an Apple Pay Merchant](https://developers.tabapay.com/reference/how-to-become-an-apple-pay-merchant)
+- [Apple Pay Example](https://ionutghisoi.medium.com/apple-pay-example-payments-1-acc2b7954b05)
 
 ## 📝 License
 

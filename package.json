@@ -1,6 +1,6 @@
 {
   "name": "apple-pay-helper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A utility library for handling server side Apple Pay sessions and decrypting tokens.",
   "main": "ApplePayHelper.js",
   "scripts": {
@@ -14,7 +14,9 @@
     "apple-pay",
     "payment",
     "decryption",
-    "session"
+    "session",
+    "apple",
+    "apple pay"
   ],
   "author": "Nadav Cohen",
   "license": "MIT",
