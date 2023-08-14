@@ -8,13 +8,13 @@ ApplePayHelper is a comprehensive JavaScript library designed to simplify the in
 
 ## 🌟 Features
 
-- **Apple Pay Session Initialization**: Easily initiate Apple Pay sessions with Apple's servers.
-- **Payment Token Decryption**: Securely decrypt Apple Pay payment tokens using your merchant certificates.
-- **Payment Provider Mapping**: Map the decrypted payment tokens to different payment providers like PayCom.
+- **Apple Pay Merchant Validation**: Easily initiate Apple Pay sessions with Apple's servers for the `onmerchantvalidation` event.
+- **Payment Token Decryption**: Securely decrypt Apple Pay payment tokens using your merchant certificates once the user has authorized the payment.
+- **Payment Provider Mapping**: Map the decrypted payment tokens to different payment providers.
 
 ## 📦 Installation
 
-You can install the ApplePayHelper library from npm:
+You can install the `apple-pay-helper` library from npm:
 
 ```bash
 npm install apple-pay-helper
