@@ -4,7 +4,7 @@
 
 # 🍏 ApplePayHelper
 
-ApplePayHelper is a comprehensive JavaScript library designed to simplify the integration of Apple Pay within your Node.js applications. It provides a seamless way to initiate Apple Pay sessions, decrypt payment tokens, and map the decrypted tokens to different payment providers. Most of the decryption logic is taken from [samcorcos/apple-pay-decrypt]('https://github.com/samcorcos/apple-pay-decrypt') and was modified to work with modern Node.js. I highly recommend checking his guide on how to generate the required PEM files for Apple Pay.
+ApplePayHelper is a comprehensive JavaScript library designed to simplify the integration of Apple Pay within your Node.js applications. It provides a seamless way to initiate Apple Pay sessions, decrypt payment tokens, and map the decrypted tokens to different payment providers. Most of the decryption logic is taken from [samcorcos/apple-pay-decrypt]('https://github.com/samcorcos/apple-pay-decrypt') and was modified to work with modern Node.js. I highly recommend checking his guide on how to generate the required PEM files for Apple Pay. Although mentioned `Unpacked Size 45 kB` in the npm package, the actual sum size of the files that are being used is around `14kb` and `7kb` on gzip format. That is not including the dependencies.
 
 ## 🌟 Features
 

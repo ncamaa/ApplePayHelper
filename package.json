@@ -1,6 +1,6 @@
 {
   "name": "apple-pay-helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A utility library for handling server side Apple Pay sessions and decrypting tokens.",
   "main": "ApplePayHelper.js",
   "scripts": {
