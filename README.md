@@ -89,6 +89,18 @@ const decryptedToken = await applePayHelper.decryptToken(paymentData);
 
 For a more detailed example, check out the [test file](testing-server.js)
 
+## 🧪 Testing
+
+To run the tests, you'll need to have the required files mentioned above. Once you have the files, create a `config.js` file similar to the `example.config.js` file and add the paths to the file. Then run the following command to run the testing server:
+
+```bash
+npm run test
+```
+
+Then you can import the [Postman collection](ApplePayHelper.postman_collection.json) and test the endpoints.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/13468768-537df29e-86d2-4d82-9f4c-7d76de3e78df?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D13468768-537df29e-86d2-4d82-9f4c-7d76de3e78df%26entityType%3Dcollection%26workspaceId%3Dd84d0c04-f4e7-442d-b61e-d9503a8e8341)
+
 ## 📖 Resources
 
 - [Apple's official demo](https://applepaydemo.apple.com/)

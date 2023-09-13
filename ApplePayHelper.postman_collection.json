@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "dc701346-e821-4ed0-8e57-70fff4c8a5c6",
+		"name": "ApplePayHelper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13468768",
+		"_collection_link": "https://universal-comet-439498.postman.co/workspace/Zeebuz~74866ea1-c06f-47d3-8c51-09dadf4453ef/collection/13468768-dc701346-e821-4ed0-8e57-70fff4c8a5c6?action=share&source=collection_link&creator=13468768"
+	},
+	"item": [
+		{
+			"name": "/dectypt-token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"token\": {\n    \"data\": \"WCm0....zqeZhA==\",\n    \"signature\": \"MIA...AAAA==\",\n    \"header\": {\n      \"publicKeyHash\": \"Y66/5fHMnW0b7GCwLdUcBRmF0yu9w2GZ54GQW2qD1fY=\",\n      \"ephemeralPublicKey\": \"...==\",\n      \"transactionId\": \"279...a77\"\n    },\n    \"version\": \"EC_v1\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{test_server_base_url}}/decrypt-token",
+					"host": [
+						"{{test_server_base_url}}"
+					],
+					"path": [
+						"decrypt-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/start-session",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appleValidationURL\": \"https://apple-pay-gateway.apple.com/paymentservices/startSession\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{test_server_base_url}}/start-session",
+					"host": [
+						"{{test_server_base_url}}"
+					],
+					"path": [
+						"start-session"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "test_server_base_url",
+			"value": "http://localhost:3006",
+			"type": "string"
+		}
+	]
+}
