@@ -1,4 +1,4 @@
-const request = require("request");
+const https = require("https");
 
 /**
  * ApplePaySession Class
@@ -43,30 +43,55 @@ class ApplePaySession {
    * @returns {Promise<import('./applePayHelperTypes').ApplePaymentResponse>} - The result of the merchant validation.
    */
   async validateMerchant(appleValidationURL) {
-    const options = {
-      url: appleValidationURL,
-      agentOptions: {
+    return new Promise((resolve, reject) => {
+      // Create an HTTPS agent with the certificate and key
+      const agent = new https.Agent({
         cert: this.config.merchantCertOnlyPem,
         key: this.config.merchantKeyOnlyPem,
-      },
-      method: "post",
-      body: {
-        merchantIdentifier: this.config.merchantId,
-        displayName: this.config.displayName,
-        initiative: this.config.initiative,
-        initiativeContext: this.config.initiativeContext,
-      },
-      json: true,
-    };
-
-    return new Promise((resolve, reject) => {
-      request(options, (error, response, body) => {
-        if (body) {
-          resolve(body);
-        } else if (error) {
-          reject(error);
-        }
       });
+
+      // Prepare the request options
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        agent,
+      };
+
+      // Create the request
+      const req = https.request(appleValidationURL, requestOptions, (res) => {
+        let data = "";
+
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        res.on("end", () => {
+          if (res.statusCode === 200) {
+            resolve(JSON.parse(data));
+          } else {
+            reject(new Error(`Failed to validate merchant: ${data}`));
+          }
+        });
+      });
+
+      req.on("error", (error) => {
+        reject(error);
+      });
+
+      // Write the request body
+      req.write(
+        JSON.stringify({
+          merchantIdentifier: this.config.merchantId,
+          displayName: this.config.displayName,
+          initiative: this.config.initiative,
+          initiativeContext: this.config.initiativeContext,
+        })
+      );
+
+      // End the request
+      req.end();
     });
   }
 }
